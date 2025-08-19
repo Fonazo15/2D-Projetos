@@ -1,42 +1,34 @@
-using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CharactherData", menuName = "Scriptable Objects/CharactherData")]
+[CreateAssetMenu(fileName = "Default Characther Data", menuName = "Game/Data/Charathers Data")]
 public class CharactherData : ScriptableObject
 {
-    public enum CharaterType
-    {
-        Tower,
-        Enemy
-    }
-    public CharaterType type;
+    public float attackCooldown;
+    public float damage;
+    [SerializeField]    private float _maxHealth;
+    public float currentHealth;
 
-    public string characterName;
-    public float _attackCooldown;
-    public float AttackSpeed
+    public enum AttackType
     {
-        get
-        {
-            return _attackCooldown / 100;
-        }
-        set
-        {
-            _attackCooldown = value * 100;
-        }
+        Energy,
+        Sharp,
+        Explosive,
+        Weak,
+        Strong
     }
-    public void ModifyAttackSpeed(float modifier)
+    public AttackType attackType;
+    public void TakeDamage(float damageTaken)
     {
-        AttackSpeed *= modifier;
+        currentHealth -= damageTaken;
     }
-    public IEnumerator AttackCourotine()
-    {
-        yield return new WaitForSeconds(_attackCooldown);
-        Attack();
-        yield break;
-    }
-    public void Attack()
-    {
 
+    public void RegenerateHealth(float regenValue)
+    {
+        if (!(currentHealth <= 0))
+        {
+            if (regenValue > _maxHealth)     regenValue = _maxHealth;
+
+            else    currentHealth += regenValue;
+        }
     }
 }
