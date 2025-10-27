@@ -4,14 +4,19 @@ using UnityEngine.InputSystem;
 public class CharacterMovement : MonoBehaviour
 {
     public float moveSpeed = 3f;
-    private Vector2 _moveInput;
-    public virtual void OnMove(InputAction.CallbackContext ctx)
-    {
-        _moveInput = ctx.ReadValue<Vector2>();
-    }
+    private Vector2 _movement;
+    private Rigidbody2D _rb;
 
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody2D>();
+    }
     private void Update()
     {
-        transform.Translate(_moveInput * (moveSpeed * Time.deltaTime));
+        _rb.MovePosition(_movement * moveSpeed * Time.deltaTime);
+    }
+    public void Move(Vector2 _moveTo)
+    {
+        _movement = _moveTo;
     }
 }
