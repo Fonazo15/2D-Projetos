@@ -4,8 +4,10 @@ using UnityEngine.InputSystem;
 public class CharacterMovement : MonoBehaviour
 {
     public float moveSpeed = 3f;
-    private Vector2 _movement;
+    public float jumpForce = 20f;
+    private Vector2 _moveAction;
     private Rigidbody2D _rb;
+    private bool _isGrounded = true;
 
     private void Awake()
     {
@@ -13,10 +15,24 @@ public class CharacterMovement : MonoBehaviour
     }
     private void Update()
     {
-        _rb.MovePosition(_movement * moveSpeed * Time.deltaTime);
+        _rb.linearVelocity = new Vector2(_moveAction.x * moveSpeed * Time.deltaTime, _rb.linearVelocity.y);
     }
-    public void Move(Vector2 _moveTo)
+    internal void HorizontalMovement(float moveX)
     {
-        _movement = _moveTo;
+        _moveAction.x = moveX;
+    }
+
+    internal void Jump()
+    {
+        if (_isGrounded)
+        {
+            _isGrounded = false;
+            _rb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        _isGrounded = collision.collider.CompareTag("Ground");
     }
 }
