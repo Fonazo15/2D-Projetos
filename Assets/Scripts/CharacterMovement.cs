@@ -1,11 +1,16 @@
+using System.Collections.Generic;
 using br.com.Fonazo;
+using br.com.Fonazo.Editor.ScriptUtil;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace br.com.Fonazo.Movement
 {
     public class CharacterMovement : MonoBehaviour
     {
         public float moveSpeed = 3f;
+        public MovementDictionary dictionary;
         internal bool IsGrounded;
         internal Vector2 MoveVector;
         internal Rigidbody2D Rb;
@@ -63,5 +68,14 @@ namespace br.com.Fonazo.Movement
         {
             return Vector2.Distance(target, position) <= 0.1f;
         }
+    }
+
+    [System.Serializable]
+    public class MovementDictionary
+    {
+        
+        public CustomDictionary<string, TagHandle> serialized_collisionDictionary = new CustomDictionary<string, TagHandle>();
+        Dictionary<string, TagHandle> collisionDictionary = new Dictionary<string, TagHandle>();
+        
     }
 }
