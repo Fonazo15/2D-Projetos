@@ -1,48 +1,67 @@
 using br.com.Fonazo;
-using br.com.Fonazo.Managers;
 using UnityEngine;
 
-namespace br.com.Fonazo
+namespace br.com.Fonazo.Movement
 {
-    namespace Movement
+    public class CharacterMovement : MonoBehaviour
     {
-        public class CharacterMovement : MonoBehaviour
+        public float moveSpeed = 3f;
+        internal bool IsGrounded;
+        internal Vector2 MoveVector;
+        internal Rigidbody2D Rb;
+
+        private void Awake()
         {
-            public float speed = 3f;
-            internal Vector2 movementInput;
-            internal Rigidbody2D rb;
+            Rb = GetComponent<Rigidbody2D>();
+        }
 
-            private void Awake()
+        private void Start()
+        {
+            moveSpeed = GameManager.Instance.Convert(moveSpeed);
+        }
+
+        private void FixedUpdate()
+        {
+            ApplyGravity();
+        }
+
+        internal void HorizontalMove(float movementX)
+        {
+            MoveVector.x = movementX;
+        }
+
+        internal void ApplyGravity()
+        {
+            if (IsGrounded)
             {
-                rb = GetComponent<Rigidbody2D>();
+                Rb.linearVelocityY = -0.2f;
             }
-
-            private void Start()
+            else
             {
-                speed = GameManager.Instance.Convert(speed);
-            }
-
-            public void Move(Vector2 moveTo)
-            {
-                movementInput = moveTo;
+                Rb.linearVelocityY = -9.81f;
             }
         }
 
-        public struct Checkpoint
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            private Vector2 position;
-            private Vector2 target;
+            
+        }
+    }
 
-            public Checkpoint(Vector2 position, Vector2 target)
-            {
-                this.position = position;
-                this.target = target;
-            }
+    public struct Checkpoint2D
+    {
+        private Vector2 position;
+        private Vector2 target;
 
-            public bool Arrived()
-            {
-                return Vector2.Distance(target, position) <= 0.1f;
-            }
+        public Checkpoint2D(Vector2 position, Vector2 target)
+        {
+            this.position = position;
+            this.target = target;
+        }
+
+        public bool Arrived()
+        {
+            return Vector2.Distance(target, position) <= 0.1f;
         }
     }
 }

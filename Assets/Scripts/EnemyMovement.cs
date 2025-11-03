@@ -1,13 +1,10 @@
 using br.com.Fonazo.Movement;
 using UnityEngine;
 
-namespace br.com.Fonazo
+namespace br.com.Fonazo.Movement
 {
-    namespace Movement
+    public class EnemyMovement : EntityPathing
     {
-        public class EnemyMovement : EntityPathing
-        {
             
-        }
     }
 }

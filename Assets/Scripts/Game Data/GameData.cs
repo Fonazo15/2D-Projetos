@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace br.com.Fonazo.Game_Data
+namespace br.com.Fonazo.Data.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "NewGameData", menuName = "Game Data/General Data", order = -100)]
     public class GameData : ScriptableObject

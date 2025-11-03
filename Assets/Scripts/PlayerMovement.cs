@@ -3,29 +3,22 @@ using br.com.Fonazo.Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace br.com.Fonazo
+namespace br.com.Fonazo.Movement
 {
-    namespace Movement
+    public class PlayerMovement : CharacterMovement
     {
-        public class PlayerMovement : CharacterMovement
+        private Vector2 moveVectorInput;
+
+        private void Update()
         {
-            private float moveSpeed;
+            Rb.MovePosition(Rb.position + MoveVector * (moveSpeed * Time.deltaTime));
+        }
+        
 
-            private void Start()
-            {
-                moveSpeed = GameManager.Instance.Convert(moveSpeed);
-            }
-
-            private void Update()
-            {
-                rb.MovePosition(rb.position + movementInput * (moveSpeed * Time.deltaTime));
-            }
-
-            public void OnMove(InputAction.CallbackContext context)
-            {
-                movementInput = context.ReadValue<Vector2>();
-                Move(movementInput);
-            }
+        public void OnMove(InputAction.CallbackContext context)
+        {
+            moveVectorInput = context.ReadValue<Vector2>();
+            HorizontalMove(moveVectorInput.x);
         }
     }
 }
