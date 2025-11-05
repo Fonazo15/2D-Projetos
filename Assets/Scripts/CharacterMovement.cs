@@ -52,15 +52,18 @@ namespace br.com.Fonazo.Movement
                 isGrounded = true;
             }
         }
+
+        internal virtual void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.CompareTag("Point"))
+            {
+                
+            }
+        }
     }
     [System.Serializable]
     public struct Checkpoint2D
     {
-        [SerializeField] private Vector2 position;
-
-        public bool Arrived(Vector2 target)
-        {
-            return Vector2.Distance(target, position) <= 0.1f;
-        }
+        public Vector2 position;
     }
 }
