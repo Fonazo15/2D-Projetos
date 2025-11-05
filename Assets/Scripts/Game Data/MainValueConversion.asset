@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f52b9f4cf28476eb865b5b41d0c512d, type: 3}
-  m_Name: GeneralData
+  m_Script: {fileID: 11500000, guid: bcc17fd150df9bf4ea4725cd0cb57580, type: 3}
+  m_Name: MainValueConversion
   m_EditorClassIdentifier: 
-  conversionRate: 5

@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using br.com.Fonazo.Data.ScriptableObjects;
-using br.com.Fonazo.Managers;
 
 namespace br.com.Fonazo.Managers
 {
@@ -10,32 +9,28 @@ namespace br.com.Fonazo.Managers
     {
         void CheckInstance();
     }
-}
 
-public class GameManager : MonoBehaviour, IManager
-{
-    public static GameManager Instance { get; private set; }
-    [SerializeField] private GameData data;
+    public class GameManager : MonoBehaviour, IManager
+    {
+        public static GameManager Instance { get; private set; }
+        [SerializeField] private SoValueConverter valueConverter;
             
-    private void Start()
-    {
-        CheckInstance();
-    }
+        private void Start()
+        {
+            CheckInstance();
+        }
             
-    public void CheckInstance()
-    {
-        if (Instance == null)
+        public void CheckInstance()
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-    public float Convert(float value)
-    {
-        return data.ConvertMetric(value);
     }
 }

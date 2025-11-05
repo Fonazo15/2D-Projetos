@@ -3,63 +3,62 @@ using UnityEngine;
 
 namespace br.com.Fonazo.Movement
 {
-    public class CharacterMovement : MonoBehaviour
+    public abstract class CharacterMovement : MonoBehaviour
     {
-        public float moveSpeed = 3f;
-        internal bool IsGrounded;
-        internal Vector2 MoveVector;
-        internal Rigidbody2D Rb;
+        [SerializeField] internal float moveSpeed = 3f;
+        [SerializeField] internal float jumpForce = 5f;
+        internal bool isGrounded = true;
+        private Vector2 moveVector = Vector2.zero;
+        internal Rigidbody2D rb;
 
-        private void Awake()
+        internal virtual void Awake()
         {
-            Rb = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody2D>();
         }
 
-        private void Start()
+        internal virtual void Start()
         {
-            moveSpeed = GameManager.Instance.Convert(moveSpeed);
+            //moveSpeed = GameManager.Instance.Convert(moveSpeed);
+            FreezeRotation();
         }
 
-        private void FixedUpdate()
+        internal void MoveX(Vector2 movementInput)
         {
-            ApplyGravity();
+            moveVector.x = movementInput.x;
         }
 
-        internal void HorizontalMove(float movementX)
+        internal void HandleMovement()
         {
-            MoveVector.x = movementX;
+            rb.linearVelocityX = moveVector.x * moveSpeed;
         }
 
-        internal void ApplyGravity()
+        private void FreezeRotation()
         {
-            if (IsGrounded)
+            rb.freezeRotation = true;
+        }
+
+        internal void Jump()
+        {
+            if (!isGrounded) return;
+            isGrounded = false;
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+        
+
+        internal virtual void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.CompareTag("Ground"))
             {
-                Rb.linearVelocityY = -0.2f;
+                isGrounded = true;
             }
-            else
-            {
-                Rb.linearVelocityY = -9.81f;
-            }
-        }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            
         }
     }
-
+    [System.Serializable]
     public struct Checkpoint2D
     {
-        private Vector2 position;
-        private Vector2 target;
+        [SerializeField] private Vector2 position;
 
-        public Checkpoint2D(Vector2 position, Vector2 target)
-        {
-            this.position = position;
-            this.target = target;
-        }
-
-        public bool Arrived()
+        public bool Arrived(Vector2 target)
         {
             return Vector2.Distance(target, position) <= 0.1f;
         }

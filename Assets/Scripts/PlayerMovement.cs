@@ -7,18 +7,26 @@ namespace br.com.Fonazo.Movement
 {
     public class PlayerMovement : CharacterMovement
     {
-        private Vector2 moveVectorInput;
+        private Vector2 moveInput;
 
-        private void Update()
+        private void FixedUpdate()
         {
-            Rb.MovePosition(Rb.position + MoveVector * (moveSpeed * Time.deltaTime));
+            HandleMovement();
         }
         
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            moveVectorInput = context.ReadValue<Vector2>();
-            HorizontalMove(moveVectorInput.x);
+            moveInput = context.ReadValue<Vector2>();
+            MoveX(moveInput);
+        }
+
+        public void OnJump(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                Jump();
+            }
         }
     }
 }
