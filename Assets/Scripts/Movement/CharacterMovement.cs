@@ -55,15 +55,20 @@ namespace br.com.Fonazo.Movement
 
         internal virtual void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Point"))
-            {
-                
-            }
+
         }
     }
     [System.Serializable]
     public struct Checkpoint2D
     {
         public Vector2 position;
+        public Checkpoint2D GetStartPoint(Checkpoint2D[] checkpoints)
+        {
+            return checkpoints[0];
+        }
+        public Checkpoint2D GetEndPoint(Checkpoint2D[] checkpoints)
+        {
+            return checkpoints[^1];
+        }
     }
 }
