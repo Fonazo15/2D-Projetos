@@ -1,16 +1,40 @@
+using br.com.Fonazo.Movement;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class EntityPathing : CharacterMovement
+namespace br.com.Fonazo.Movement.AI
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class EntityPathing : CharacterMovement
     {
-        
-    }
+        [SerializeField] internal Checkpoint2D[] patrolPoints;
 
-    // Update is called once per frame
-    void Update()
-    {
+        private void OnEnable()
+        {
+            
+        }
+
+        private void OnDisable()
+        {
+            
+        }
+
+        #region Patroller
+
+        internal virtual void StartPatrolPath()
+        {
+            transform.position = Vector3.Lerp(transform.position, patrolPoints[0].position, moveSpeed * Time.deltaTime);
+        }
+
+        #endregion
         
+        
+        #region Seeker
+
+        internal virtual void StartSeekerPath()
+        {
+
+        }
+
+        #endregion
     }
 }

@@ -1,19 +1,32 @@
+using br.com.Fonazo;
+using br.com.Fonazo.Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : CharacterMovement
+namespace br.com.Fonazo.Movement
 {
-    private Vector2 _moveInput;
-
-    public void OnHorizontalMove(InputAction.CallbackContext context)
+    public class PlayerMovement : CharacterMovement
     {
-        _moveInput = context.ReadValue<Vector2>();
-        HorizontalMovement(_moveInput.x);
-    }
+        private Vector2 moveInput;
 
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        if(context.performed)
-            Jump();
+        private void FixedUpdate()
+        {
+            HandleMovement();
+        }
+        
+
+        public void OnMove(InputAction.CallbackContext context)
+        {
+            moveInput = context.ReadValue<Vector2>();
+            MoveX(moveInput);
+        }
+
+        public void OnJump(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                Jump();
+            }
+        }
     }
 }

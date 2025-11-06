@@ -1,38 +1,69 @@
+using br.com.Fonazo;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class CharacterMovement : MonoBehaviour
+namespace br.com.Fonazo.Movement
 {
-    public float moveSpeed = 3f;
-    public float jumpForce = 20f;
-    private Vector2 _moveAction;
-    private Rigidbody2D _rb;
-    private bool _isGrounded = true;
+    public abstract class CharacterMovement : MonoBehaviour
+    {
+        [SerializeField] internal float moveSpeed = 3f;
+        [SerializeField] internal float jumpForce = 5f;
+        internal bool isGrounded = true;
+        private Vector2 moveVector = Vector2.zero;
+        internal Rigidbody2D rb;
 
-    private void Awake()
-    {
-        _rb = GetComponent<Rigidbody2D>();
-    }
-    private void Update()
-    {
-        _rb.linearVelocity = new Vector2(_moveAction.x * moveSpeed * Time.deltaTime, _rb.linearVelocity.y);
-    }
-    internal void HorizontalMovement(float moveX)
-    {
-        _moveAction.x = moveX;
-    }
-
-    internal void Jump()
-    {
-        if (_isGrounded)
+        internal virtual void Awake()
         {
-            _isGrounded = false;
-            _rb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
+            rb = GetComponent<Rigidbody2D>();
+        }
+
+        internal virtual void Start()
+        {
+            //moveSpeed = GameManager.Instance.Convert(moveSpeed);
+            FreezeRotation();
+        }
+
+        internal void MoveX(Vector2 movementInput)
+        {
+            moveVector.x = movementInput.x;
+        }
+
+        internal void HandleMovement()
+        {
+            rb.linearVelocityX = moveVector.x * moveSpeed;
+        }
+
+        private void FreezeRotation()
+        {
+            rb.freezeRotation = true;
+        }
+
+        internal void Jump()
+        {
+            if (!isGrounded) return;
+            isGrounded = false;
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+        
+
+        internal virtual void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.CompareTag("Ground"))
+            {
+                isGrounded = true;
+            }
+        }
+
+        internal virtual void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.CompareTag("Point"))
+            {
+                
+            }
         }
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    [System.Serializable]
+    public struct Checkpoint2D
     {
-        _isGrounded = collision.collider.CompareTag("Ground");
+        public Vector2 position;
     }
 }

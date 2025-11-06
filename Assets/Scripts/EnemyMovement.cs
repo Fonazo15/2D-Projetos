@@ -1,16 +1,15 @@
+using System;
+using br.com.Fonazo.Movement;
 using UnityEngine;
 
-public class EnemyMovement : EntityPathing
+namespace br.com.Fonazo.Movement.AI
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class EnemyMovement : EntityPathing
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        internal override void Start()
+        {
+            base.Start();
+            StartPatrolPath();
+        }
     }
 }
