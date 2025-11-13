@@ -9,16 +9,11 @@ namespace br.com.Fonazo.Movement
     {
         private Vector2 moveInput;
 
-        private void FixedUpdate()
-        {
-            HandleMovement();
-        }
-        
 
         public void OnMove(InputAction.CallbackContext context)
         {
             moveInput = context.ReadValue<Vector2>();
-            MoveX(moveInput);
+            Move2D(moveInput.x);
         }
 
         public void OnJump(InputAction.CallbackContext context)

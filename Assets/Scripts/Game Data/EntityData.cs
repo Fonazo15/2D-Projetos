@@ -13,12 +13,7 @@ namespace br.com.Fonazo.AI
         public float speed;
         public float jumpForce;
         public float attackCooldown;
-
-        public void SetEntityMovementData<T>(T movementScript) where T : CharacterMovement
-        {
-            movementScript.moveSpeed = speed;
-            movementScript.jumpForce = jumpForce;
-        }
+        public float detectionRange;
     }
     public enum PlayerRelationship
     {

@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Ground
+  - AnimalTarget
   layers:
   - Default
   - TransparentFX

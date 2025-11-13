@@ -8,7 +8,6 @@ namespace br.com.Fonazo.Movement
         [SerializeField] internal float moveSpeed = 3f;
         [SerializeField] internal float jumpForce = 5f;
         internal bool isGrounded = true;
-        private Vector2 moveVector = Vector2.zero;
         internal Rigidbody2D rb;
 
         internal virtual void Awake()
@@ -16,20 +15,14 @@ namespace br.com.Fonazo.Movement
             rb = GetComponent<Rigidbody2D>();
         }
 
-        internal virtual void Start()
+        private void Start()
         {
-            //moveSpeed = GameManager.Instance.Convert(moveSpeed);
             FreezeRotation();
         }
 
-        internal void MoveX(Vector2 movementInput)
+        internal void Move2D(float direction)
         {
-            moveVector.x = movementInput.x;
-        }
-
-        internal void HandleMovement()
-        {
-            rb.linearVelocityX = moveVector.x * moveSpeed;
+            rb.linearVelocityX = direction * moveSpeed;
         }
 
         private void FreezeRotation()
@@ -45,28 +38,23 @@ namespace br.com.Fonazo.Movement
         }
         
 
-        internal virtual void OnCollisionEnter2D(Collision2D collision)
+        private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Ground"))
             {
                 isGrounded = true;
             }
         }
-
-        internal virtual void OnTriggerEnter2D(Collider2D other)
-        {
-
-        }
     }
     [System.Serializable]
     public struct Checkpoint2D
     {
         public Vector2 position;
-        public Checkpoint2D GetStartPoint(Checkpoint2D[] checkpoints)
+        public static Checkpoint2D GetStartPoint(Checkpoint2D[] checkpoints)
         {
             return checkpoints[0];
         }
-        public Checkpoint2D GetEndPoint(Checkpoint2D[] checkpoints)
+        public static Checkpoint2D GetEndPoint(Checkpoint2D[] checkpoints)
         {
             return checkpoints[^1];
         }
